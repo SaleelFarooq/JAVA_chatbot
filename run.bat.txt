@@ -1,0 +1,6 @@
+@ECHO OFF
+
+set CLASSPATH=%JAVA_HOME%
+javac HelloWorld.java
+java HelloWorld
+pause
