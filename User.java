@@ -1,4 +1,3 @@
-package com.philips.casestudy.chatbot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +58,7 @@ public class User {
 		}
 		catch (Exception e1) {
 			System.out.println("I have to consider you are from low acuity..");
+
 		}
 		this.acuity=User.decideAcuity(location,this.nofbeds);
 }

@@ -1,4 +1,4 @@
-package com.philips.casestudy.chatbot;
+
 
 import java.util.Scanner;
 
