@@ -1,6 +1,4 @@
-
 //package com.philips.casestudy.chatbot;
-
 
 import org.json.simple.JSONObject;
 
@@ -8,23 +6,23 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
+//import java.util.Scanner;
 import java.util.Set;
 
 public class Query {
 	
 	public static List<JSONObject> getCombination(List<JSONObject> list1,String acuity) {
-		@SuppressWarnings("resource")
-		Scanner userinput2 = new Scanner(System.in);
+		//@SuppressWarnings("resource")
+		//Scanner userinput2 = new Scanner(System.in);
 		System.out.println("Select the set of additional parameters recquired");
 		System.out.println("\t 1. Philips spO2 ");
 		System.out.println("\t 2. Philips spO2 , Cardiac output ");
 		System.out.println("\t 3. Masimo rainbow , Philips SpO2");
 		System.out.println("\t 4. Philips spO2 , Cardiac output , Masimo rainbow");
-
 		int parameterCombination=0;
 		
-		try {parameterCombination=userinput2.nextInt();
+		try {//parameterCombination=userinput2.nextInt();
+		parameterCombination=Integer.parseInt(InputHandler.provide());
 		if(parameterCombination<1 || parameterCombination>4)
 			{return getCombination(list1, acuity); }
 		}
@@ -34,7 +32,6 @@ public class Query {
 		}
 		
 		
-
 		String spO2,cardiacOutput,masimoRainbow;
 		if(parameterCombination==1) {
 			spO2="2";
@@ -80,8 +77,8 @@ public class Query {
 	
 	public static List<JSONObject> getScreenType(List<JSONObject> list1,String acuity){
 		int countTouch=0;
-		@SuppressWarnings("resource")
-		Scanner userinput2 = new Scanner(System.in);
+		//@SuppressWarnings("resource")
+		//Scanner userinput2 = new Scanner(System.in);
 		List<JSONObject> result1 = new ArrayList<JSONObject>();
 		List<JSONObject> result2 = new ArrayList<JSONObject>();
 		boolean b1,b2;
@@ -96,11 +93,11 @@ public class Query {
 				else
 					{result2.add(list1.get(i));}
 				}
-
 		int screentype=0;	
 		if(countTouch>0 && ((list1.size()-countTouch)>0))
 				{System.out.println("What type of screen do you prefer ?\n\t1.Touch \t2.Non Touch");
-				try{screentype=userinput2.nextInt();
+				try{//screentype=userinput2.nextInt();
+				screentype=Integer.parseInt(InputHandler.provide());
 				if(screentype<1 || screentype>2) {
 					return getScreenType(list1, acuity);
 				}
@@ -108,7 +105,6 @@ public class Query {
 					System.out.println("Please provide valid inputs..");
 					return getScreenType(list1, acuity);
 				}
-
 				if(screentype==1)
 						{return result1;}
 				else if(screentype==2)
@@ -126,8 +122,8 @@ public class Query {
 	}
 	
 	public static List<JSONObject> getScreenSize(List<JSONObject> list1,String acuity){
-		@SuppressWarnings("resource")
-		Scanner userinput2 = new Scanner(System.in);
+		//@SuppressWarnings("resource")
+		//Scanner userinput2 = new Scanner(System.in);
 		List<JSONObject> result1 = new ArrayList<JSONObject>();
 		if(list1.size()==1) {
 			System.out.println("The screen size will be " + list1.get(0).get("screensize"));
@@ -151,9 +147,9 @@ public class Query {
 						listOfTheSame.add(element);
 						i++;
 						}
-				int scrsize = userinput2.nextInt();
-
-				try{scrsize = userinput2.nextInt();
+				int scrsize = 0;
+				try{//scrsize = userinput2.nextInt();
+					scrsize=Integer.parseInt(InputHandler.provide());
 				if(scrsize<=0 || scrsize>=setOfScreenSizes.size()) {
 					return getScreenSize(list1, acuity);
 				}
@@ -161,7 +157,6 @@ public class Query {
 					return getScreenSize(list1, acuity);
 				}
 				
-
 				String scrsizeOpted=listOfTheSame.get(scrsize-1);
 				for(int j=0;j<list1.size();j++) {
 					if(scrsizeOpted.equals(list1.get(j).get("screensize"))) {
