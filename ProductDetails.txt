@@ -1,0 +1,12 @@
+type model screensize touch masimo_rainbow philips_spo2 cardiac_output max_no_of_waveforms 12lead_ecg
+2 Efficia-CM10 10 2 0 2 0 8 0
+2 Efficia-CM12 12 2 0 2 2 12 2
+2 Efficia-CM100 10 1 2 2 0 8 0
+2 Efficia-CM120 12 1 2 2 2 8 2
+2 Efficia-CM150 15 1 2 2 2 12 2
+1 MX400 9 1 1 1 1 12 1
+1 MX500 12 1 1 1 1 12 1
+1 MX550 15 1 1 1 1 12 1
+1 MX700 15 0 1 1 1 12 1
+1 MX800 15 1 1 1 1 12 1
+1 MX450 12 1 1 1 1 12 1
