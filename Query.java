@@ -6,48 +6,27 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-//import java.util.Scanner;
+
 import java.util.Set;
 
 public class Query {
-	
-	public static List<JSONObject> getCombination(List<JSONObject> list1,String acuity) {
-		//@SuppressWarnings("resource")
-		//Scanner userinput2 = new Scanner(System.in);
-		System.out.println("Select the set of additional parameters recquired");
-		System.out.println("\t 1. Philips spO2 ");
-		System.out.println("\t 2. Philips spO2 , Cardiac output ");
-		System.out.println("\t 3. Masimo rainbow , Philips SpO2");
-		System.out.println("\t 4. Philips spO2 , Cardiac output , Masimo rainbow");
-		int parameterCombination=0;
-		
-		try {//parameterCombination=userinput2.nextInt();
-		parameterCombination=Integer.parseInt(InputHandler.provide());
-		if(parameterCombination<1 || parameterCombination>4)
-			{return getCombination(list1, acuity); }
-		}
-		catch(Exception e1) {
-			System.out.println("It was not a valid choice");
-			return  getCombination(list1, acuity);
-		}
-		
-		
-		String spO2,cardiacOutput,masimoRainbow;
-		if(parameterCombination==1) {
+	private static String spO2,cardiacOutput,masimoRainbow;
+	private static void setCombinationFlag(int choice) {
+		if(choice==1) {
 			spO2="2";
 			cardiacOutput="0";
 			masimoRainbow="0";
 		}
-		else if(parameterCombination==2)
+		else if(choice==2)
 		{spO2="2";
 		cardiacOutput="2";
 		masimoRainbow="0";}
-		else if(parameterCombination==3) {
+		else if(choice==3) {
 			spO2="2";
 			cardiacOutput="0";
 			masimoRainbow="2";	
 		}
-		else if(parameterCombination==4)
+		else if(choice==4)
 		{spO2="2";
 		cardiacOutput="2";
 		masimoRainbow="2";}
@@ -56,64 +35,75 @@ public class Query {
 			cardiacOutput="0";
 			masimoRainbow="0";
 		}
-	List<JSONObject> result1 = new ArrayList<JSONObject>();
-	if(spO2=="0" && cardiacOutput=="0" && masimoRainbow=="0")
-			{System.out.println("Enter a relevant option : ");
-			}
-	else {
-		boolean b1,b2,b3,b4;
-		for(int i=0;i<11;i++) {
-			b1=(list1.get(i).get("type").equals(acuity));
-			b2=(list1.get(i).get("philips_spo2").equals(spO2)) ;
-			b3 = (list1.get(i).get("masimo_rainbow").equals(masimoRainbow));
-			b4=(list1.get(i).get("cardiac_output").equals(cardiacOutput));
-			if(b1 && b2 && b3 && b4)
-					{
-				result1.add(list1.get(i));}
-		}
-	}
-	return result1;
 	}
 	
-	public static List<JSONObject> getScreenType(List<JSONObject> list1,String acuity){
-		int countTouch=0;
-		//@SuppressWarnings("resource")
-		//Scanner userinput2 = new Scanner(System.in);
-		List<JSONObject> result1 = new ArrayList<JSONObject>();
-		List<JSONObject> result2 = new ArrayList<JSONObject>();
-		boolean b1,b2;
-		for(int i=0;i<list1.size();i++)
-			if(list1.get(i).get("type").equals(acuity))
-			{b1=(list1.get(i).get("touch").equals("1"));
-			b2=(list1.get(i).get("touch").equals("2"));
-			if((b1 || b2)) 
-					{countTouch++;
-					result1.add(list1.get(i));
+	private static List<JSONObject> NarrowDown(List<JSONObject> list1,String property,String valueOfProperty){
+		List<JSONObject> result = new ArrayList<JSONObject>();
+		int lengthOfList=list1.size();
+		for(int i=0;i<lengthOfList;i++)
+					{if(list1.get(i).get(property).equals(valueOfProperty))
+							{result.add(list1.get(i));}
 					}
-				else
-					{result2.add(list1.get(i));}
-				}
+		return result;
+	}
+	
+	
+	public static List<JSONObject> sortByAcuity(List<JSONObject> list1,String acuity){
+		return NarrowDown(list1,"type", acuity);
+	}
+	
+	
+	public static List<JSONObject> sortByCombination(List<JSONObject> list1) {
+		Logger.Log("Select the set of additional parameters recquired\n\t 1. Philips spO2\n\t2. 2. Philips spO2 , Cardiac output");
+		Logger.Log("\n\t 3. Masimo rainbow , Philips SpO2\n\t 4. Philips spO2 , Cardiac output , Masimo rainbow");
+		int parameterCombination=0;
+		try {parameterCombination=ConsoleScanner.TakeInteger();
+		if(parameterCombination<1 || parameterCombination>4)
+			{return sortByCombination(list1); }
+		}
+		catch(Exception e1) {
+			Logger.Log("It was not a valid choice");
+			return  sortByCombination(list1);
+		}
+		
+		setCombinationFlag(parameterCombination);
+	List<JSONObject> result = new ArrayList<JSONObject>();
+	if(spO2=="0" && cardiacOutput=="0" && masimoRainbow=="0")
+			{Logger.Log("Enter a relevant option : ");
+			}
+	else {result=NarrowDown(list1,"philips_spo2",spO2);
+		 result=NarrowDown(result,"masimo_rainbow",masimoRainbow);
+		 result=NarrowDown(result,"cardiac_output",cardiacOutput);
+	}
+	return result;
+	}
+	
+	public static List<JSONObject> sortByScreenType(List<JSONObject> list1){
+		List<JSONObject> result1 = NarrowDown(list1,"touch","1");
+		List<JSONObject> result1a =NarrowDown(list1,"touch","2"); 
+		result1.addAll(result1a);
+		List<JSONObject> result2 = NarrowDown(list1,"touch","0");
 		int screentype=0;	
-		if(countTouch>0 && ((list1.size()-countTouch)>0))
+		if(result1.size()>0 && ((result2.size())>0))
 				{System.out.println("\nWhat type of screen do you prefer ?\n\t1.Touch \n\t2.Non Touch");
-				try{//screentype=userinput2.nextInt();
-				screentype=Integer.parseInt(InputHandler.provide());
+				try{screentype=ConsoleScanner.TakeInteger();
+				//screentype=Integer.parseInt(InputHandler.provide());
 				if(screentype<1 || screentype>2) {
-					return getScreenType(list1, acuity);
+					return sortByScreenType(list1);
 				}
 				}catch(Exception e4) {
-					System.out.println("\nPlease provide valid inputs..");
-					return getScreenType(list1, acuity);
+					Logger.Log("\nPlease provide valid inputs..");
+					return sortByScreenType(list1);
 				}
 				if(screentype==1)
 						{return result1;}
 				else if(screentype==2)
 						{return result2;}
 				}
-		else if(countTouch>0)
-				{System.out.println("\nAll the models have touch screen");}
-		else if((list1.size()-countTouch)>0)
-					{System.out.println("\nAll the models have Non touch screen");}
+		else if(result1.size()>0)
+				{Logger.Log("\nAll the models have touch screen");}
+		else if((result2.size())>0)
+					{Logger.Log("\nAll the models have Non touch screen");}
 		else
 				{
 				return list1;
@@ -121,12 +111,9 @@ public class Query {
 		return list1;
 	}
 	
-	public static List<JSONObject> getScreenSize(List<JSONObject> list1,String acuity){
-		//@SuppressWarnings("resource")
-		//Scanner userinput2 = new Scanner(System.in);
-		List<JSONObject> result1 = new ArrayList<JSONObject>();
+	public static List<JSONObject> sortByScreenSize(List<JSONObject> list1){
 		if(list1.size()==1) {
-			System.out.println("\nThe screen size will be " + list1.get(0).get("screensize"));
+			Logger.Log("\nThe screen size will be " + list1.get(0).get("screensize"));
 			return list1;
 		}
 		else
@@ -135,34 +122,31 @@ public class Query {
 				for(int i=0;i<list1.size();i++)
 						{setOfScreenSizes.add((String) list1.get(i).get("screensize"));
 						}
-				System.out.println("\nYou can have " + setOfScreenSizes.size()+" screensizes out of these "+list1.size()+" models");
+				Logger.Log("\nYou can have " + setOfScreenSizes.size()+" screensizes out of these "+list1.size()+" models");
 				 @SuppressWarnings("rawtypes")
 				Iterator iter = setOfScreenSizes.iterator(); 
-				System.out.println("Which one will you prefer?");
+				Logger.Log("Which one will you prefer?");
 				int i=1;
 				String element;
 				while(iter.hasNext())
 						{element=(String) iter.next();
-						System.out.println("\t"+(i)+". " + element );
+						Logger.Log("\t"+(i)+". " + element );
 						listOfTheSame.add(element);
 						i++;
 						}
 				int scrsize = 0;
-				try{//scrsize = userinput2.nextInt();
-					scrsize=Integer.parseInt(InputHandler.provide());
+				try{scrsize =ConsoleScanner.TakeInteger();
+					//scrsize=Integer.parseInt(InputHandler.provide());
 				if(scrsize<=0 || scrsize>=setOfScreenSizes.size()) {
-					return getScreenSize(list1, acuity);
+					return sortByScreenSize(list1);
 				}
 				}catch(Exception e5) {
-					return getScreenSize(list1, acuity);
+					return sortByScreenSize(list1);
 				}
 				
 				String scrsizeOpted=listOfTheSame.get(scrsize-1);
-				for(int j=0;j<list1.size();j++) {
-					if(scrsizeOpted.equals(list1.get(j).get("screensize"))) {
-					result1.add(list1.get(j));	
-					}	
-					}
+				List<JSONObject> result1 = NarrowDown(list1,"screensize",scrsizeOpted);
+				
 				return result1;
 				}
 	}

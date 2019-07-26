@@ -21,28 +21,22 @@ public class InputHandler {
 	static {
 		 String inputString="";
 		try {
- 			//String filename = "C:\\Users\\320065411\\eclipse-workspace\\MyTraining\\src\\com\\philips\\casestudy\\chatbot\\Inputvalues.txt";
-			String filename1 = System.getProperty("user.dir");
-			System.out.println(filename1);
- 			filename1=filename1 + "\\Inputvalues.txt";
-			FileReader fr=new FileReader(filename1);
-			int i;   
-	         try {
+ 			
+			String filename = System.getProperty("user.dir")+"\\Inputvalues.txt";
+			FileReader fr=new FileReader(filename);  
+	         try {int i; 
 				while((i=fr.read())!=-1)    
 				 			{inputString+=(char) i;
 				 			}
 			} catch (IOException e) {
-				System.out.println("Problem with reading input .. ");
+				Logger.Log("Problem with reading input .. ");
 				e.printStackTrace();
 			}
 	} catch (FileNotFoundException e2) {
-		
 		e2.printStackTrace();
 	}finally {
-		//System.out.println(inputString);
 		if(!(inputString.equals(""))) {
 			String[] arrayofinputs=inputString.split("\n");
-			//System.out.println("Len of arrayofinputs : " + arrayofinputs.length);
 			for(int i=0;i<arrayofinputs.length;i++) {
 				inputList.add(arrayofinputs[i]);
 			}

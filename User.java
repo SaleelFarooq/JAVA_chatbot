@@ -28,40 +28,16 @@ public class User {
      
      
 	public void getDetails() {
-		boolean repeatName=true;
-		while(repeatName) {
-			System.out.printf("\nPlease Enter Your Name\n");
-			
-			//@SuppressWarnings("resource")
-			//Scanner userinput =new Scanner(System.in);
-			//String name=userinput.nextLine();
-			String name=InputHandler.provide();
-			repeatName=false;
-			for(int i=0;i<name.length();i++)
-					{if(Character.isDigit(name.charAt(i)))
-						repeatName=true;
-					}
-			if(repeatName==false) {
-				this.name=name;
-			}
-			else
-				{System.out.println("Please enter a string for 'NAME'");}
-		}
-		
-		System.out.printf("HI "+this.name+",Enter your location \n\t");
-		//@SuppressWarnings("resource")
-		//Scanner userinput1 =new Scanner(System.in);
-		//String location=userinput1.nextLine();
-		String location =InputHandler.provide();
-		this.Address=location;
-		
+		Logger.Log("\nPlease enter your name\n");
+		this.name = ConsoleScanner.TakeString();
+		//String name=InputHandler.provide();
+		Logger.Log("HI "+this.name+",Enter your location \n\t");
+		//String location =InputHandler.provide();
+		this.Address=ConsoleScanner.TakeString();
 		boolean repeatBed=true;
 		while(repeatBed) {
-			System.out.printf("\nHow many bedded hospital?\n");
-			//@SuppressWarnings("resource")
-			//Scanner userinput =new Scanner(System.in);
-			//String name=userinput.nextLine();
-			String beds=InputHandler.provide();
+			Logger.Log("\nHow many bedded hospital?\n");
+			String beds=ConsoleScanner.TakeString();
 			repeatBed=false;
 			for(int i=0;i<beds.length();i++)
 					{if(!(Character.isDigit(beds.charAt(i))))
@@ -71,71 +47,73 @@ public class User {
 				this.nofbeds=Integer.parseInt(beds);
 			}
 			else
-				{System.out.println("Please enter an integer for 'No.of Beds'");}
+				{Logger.Log("Please enter an integer for 'No.of Beds'");}
 		}
-		
-		
-		this.acuity=User.decideAcuity(location,this.nofbeds);
+		this.acuity=User.decideAcuity(this.Address,this.nofbeds);
 }
 		
 	
-	public void suggest() {
+	public void getPreferences() {
 		List<JSONObject> r1 = new ArrayList<JSONObject>();
-		for(int i=0;i<ProductList.PMSList.length;i++) {
-			r1.add(ProductList.PMSList[i]);
-		}
+		r1=ProductList.PMSList;
+		String arg;
+		if(this.acuity=="high") {arg="1";}
+		else {arg="2";}
+		r1=Query.sortByAcuity(r1,arg);
 		if(this.acuity=="low")
 			{
-			r1=Query.getCombination(r1,"2");
+			r1=Query.sortByCombination(r1);
 			if(r1.size()==0)
 						return;
-			System.out.println("\nwe have "+ r1.size() +" product/s with these specs..");
-			r1=Query.getScreenType(r1,"2");
+			Logger.Log("\nwe have "+ r1.size() +" product/s with these specs..");
+			r1=Query.sortByScreenType(r1);
 			if(r1.size()==0)
 					return;
-			this.suggestion=Query.getScreenSize(r1,"2");
+			this.suggestion=Query.sortByScreenSize(r1);
 			}
 		else if(this.acuity=="high")
 			{
-			r1=Query.getScreenType(r1,"1");
-			this.suggestion=Query.getScreenSize(r1,"1");
+			r1=Query.sortByScreenType(r1);
+			this.suggestion=Query.sortByScreenSize(r1);
 			}
-		
+		Logger.Log("\nDo you need central patient monitoring station? \n\t1.YES \t2.NO\n");
+		 //System.out.println("\nDo you need central patient monitoring station \n\t1.yes \n\t2.No");
+		 int cpms15=ConsoleScanner.TakeInteger();
+		 //int cpms15=Integer.parseInt(InputHandler.provide());
+		 this.centralPMS=Integer.toString(cpms15);
+	}
+	public void suggest() {
 		if(this.suggestion.size()==1) {
-			System.out.println("\nThe product you can buy is " + this.suggestion.get(0).get("model").toString().toUpperCase());
-			System.out.println("\nYou can find this product and order from our website ");
+			Logger.Log("\nThe product you can buy is " + this.suggestion.get(0).get("model").toString().toUpperCase());
+			
 		}
 		else {if(this.acuity=="high")
-					{System.out.println("\nThe intelliVue base model suitable for you are ..");
+					{Logger.Log("\nThe intelliVue base model suitable for you are ..");
 					for(int i=0;i<this.suggestion.size();i++) {
-			  			System.out.println(this.suggestion.get(i).get("model").toString().toUpperCase());
+			  			Logger.Log(this.suggestion.get(i).get("model").toString().toUpperCase());
 			  	}
 					}
 			  else
-				  	{System.out.println("\nThe products you can go for are\n ");
+				  	{Logger.Log("\nThe products you can go for are\n ");
 				  	for(int i=0;i<this.suggestion.size();i++) {
-				  			System.out.println(this.suggestion.get(i).get("model").toString().toUpperCase());
+				  			Logger.Log(this.suggestion.get(i).get("model").toString().toUpperCase());
 				  	}
-				  	System.out.println("\n\tYou can find this product and order from our website ");
+				  	
 				  	}
 			 }
+		Logger.Log("\n\tYou can find this product and order from our website ");
 		}
 	
-	
-	public void getAdditionalInfo() {
-		//@SuppressWarnings("resource")
-		//Scanner userinput1 =new Scanner(System.in);
-		 System.out.println("\nDo you need central patient monitoring station \n\t1.yes \n\t2.No");
-		// int cpms15=userinput1.nextInt();
-		 int cpms15=Integer.parseInt(InputHandler.provide());
-		 this.centralPMS=Integer.toString(cpms15);
+
+	public void conclude() {
 		 if(this.acuity=="high")
 				{System.out.println("\nEnter custom specifications");         
-				//String spec15=userinput1.next();
-				String spec15=InputHandler.provide();
+				String spec15=ConsoleScanner.TakeString();
+				//String spec15=InputHandler.provide();
 				this.additionalParams=spec15;
-				System.out.println("\nOur Nearest Dealer Saleel will contact you for the more information");
-				}	 	
+				Logger.Log("\nOur Nearest Dealer Saleel will contact you for the more information");
+				}
+		 Logger.Log("Hope you have got what you were asking..");
 		}
 	
 }

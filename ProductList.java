@@ -3,30 +3,27 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.simple.JSONObject;
 
 @SuppressWarnings("unchecked")
 public class ProductList {
- public static JSONObject[] PMSList = new JSONObject[11] ;
+ public static List<JSONObject> PMSList = new ArrayList<JSONObject>() ;
 
  	static {
  		try {
  			
- 			String str0 = System.getProperty("user.dir");
- 			str0=str0 + "\\Productdetails.txt";
- 			
- 			//String str1 = "C:\\Users\\320065411\\eclipse-workspace\\MyTraining\\src\\com\\philips\\casestudy\\chatbot\\ProductDetails.txt";
- 		
-			FileReader fr=new FileReader(str0);
-			int i;    
+ 			String filename = System.getProperty("user.dir")+"\\Productdetails.txt";
+			FileReader fr=new FileReader(filename);    
 	         String wholeText="";
-	         try {
+	         try {int i;
 				while((i=fr.read())!=-1)    
 				 			{wholeText+=(char) i;
 				 			}
 			} catch (IOException e) {
-				System.out.println("Can't read from the file .. ");
+				Logger.Log("Can't read from the file .. ");
 				e.printStackTrace();
 			}
 	         String[] rows = wholeText.split("\n");
@@ -40,16 +37,16 @@ public class ProductList {
 	        	 pms034.put(ArrayOfKeys[j],values[j]);
 	         }
 	         pms034.remove("12lead_ecg\r");
-	         PMSList[m-1]=pms034;
+	         PMSList.add(pms034);
 	         }
 	         try {
 				fr.close();
 			} catch (IOException e) {
-				System.out.println("Struggle to close the file..");
+				Logger.Log("Struggle to close the file..");
 				e.printStackTrace();
 			}    
 		} catch (FileNotFoundException e) {
-			System.out.println("Check file path again..");
+			Logger.Log("Check file path again..");
 			e.printStackTrace();
 		} 	
  	
