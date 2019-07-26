@@ -14,7 +14,7 @@ public class Query {
 	public static List<JSONObject> getCombination(List<JSONObject> list1,String acuity) {
 		//@SuppressWarnings("resource")
 		//Scanner userinput2 = new Scanner(System.in);
-		System.out.println("Select the set of additional parameters recquired");
+		System.out.println("\nSelect the set of additional parameters recquired");
 		System.out.println("\t 1. Philips spO2 ");
 		System.out.println("\t 2. Philips spO2 , Cardiac output ");
 		System.out.println("\t 3. Masimo rainbow , Philips SpO2");
@@ -95,14 +95,14 @@ public class Query {
 				}
 		int screentype=0;	
 		if(countTouch>0 && ((list1.size()-countTouch)>0))
-				{System.out.println("What type of screen do you prefer ?\n\t1.Touch \t2.Non Touch");
+				{System.out.println("\nWhat type of screen do you prefer ?\n\t1.Touch \n\t2.Non Touch");
 				try{//screentype=userinput2.nextInt();
 				screentype=Integer.parseInt(InputHandler.provide());
 				if(screentype<1 || screentype>2) {
 					return getScreenType(list1, acuity);
 				}
 				}catch(Exception e4) {
-					System.out.println("Please provide valid inputs..");
+					System.out.println("\nPlease provide valid inputs..");
 					return getScreenType(list1, acuity);
 				}
 				if(screentype==1)
@@ -111,9 +111,9 @@ public class Query {
 						{return result2;}
 				}
 		else if(countTouch>0)
-				{System.out.println("All the models have touch screen");}
+				{System.out.println("\nAll the models have touch screen");}
 		else if((list1.size()-countTouch)>0)
-					{System.out.println("All the models have Non touch screen");}
+					{System.out.println("\nAll the models have Non touch screen");}
 		else
 				{
 				return list1;
@@ -126,7 +126,7 @@ public class Query {
 		//Scanner userinput2 = new Scanner(System.in);
 		List<JSONObject> result1 = new ArrayList<JSONObject>();
 		if(list1.size()==1) {
-			System.out.println("The screen size will be " + list1.get(0).get("screensize"));
+			System.out.println("\nThe screen size will be " + list1.get(0).get("screensize"));
 			return list1;
 		}
 		else
@@ -135,7 +135,7 @@ public class Query {
 				for(int i=0;i<list1.size();i++)
 						{setOfScreenSizes.add((String) list1.get(i).get("screensize"));
 						}
-				System.out.println("You can have " + setOfScreenSizes.size()+" screensizes out of these "+list1.size()+" models");
+				System.out.println("\nYou can have " + setOfScreenSizes.size()+" screensizes out of these "+list1.size()+" models");
 				 @SuppressWarnings("rawtypes")
 				Iterator iter = setOfScreenSizes.iterator(); 
 				System.out.println("Which one will you prefer?");
@@ -143,7 +143,7 @@ public class Query {
 				String element;
 				while(iter.hasNext())
 						{element=(String) iter.next();
-						System.out.println((i)+". " + element );
+						System.out.println("\t"+(i)+". " + element );
 						listOfTheSame.add(element);
 						i++;
 						}

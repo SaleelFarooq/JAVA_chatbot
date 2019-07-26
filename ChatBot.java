@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class ChatBot {
 	public static void main(String[] args) {
-		
+		System.out.println("The ChatBot");
 		 Scanner sc1 = new Scanner(System.in);
 		 char c;
 		 String a;
@@ -16,7 +16,7 @@ public class ChatBot {
 	    user1.getDetails();
 	    user1.suggest();
 	    user1.getAdditionalInfo();
-	    System.out.println("\n\nDo you want to continue? [Y/n]");
+	    System.out.println("\n\nDo you want to continue? [Y/n]\n\n");
 	    a= InputHandler.provide();
 	    c=a.charAt(0);
 	    if(c!='y') {

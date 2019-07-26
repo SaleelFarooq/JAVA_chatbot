@@ -13,6 +13,7 @@ public class InputHandler {
 		if(InputHandler.order<inputList.size())
 			{String result=InputHandler.inputList.get(InputHandler.order).substring(0,InputHandler.inputList.get(InputHandler.order).length()-1);
 			InputHandler.order++;
+			System.out.println(result);
 			return result;
 			}
 		else
@@ -21,9 +22,11 @@ public class InputHandler {
 	static {
 		 String inputString="";
 		try {
- 			String filename = "C:\\Users\\320065411\\eclipse-workspace\\MyTraining\\src\\com\\philips\\casestudy\\chatbot\\Inputvalues.txt";
- 			
-			FileReader fr=new FileReader(filename);
+ 			//String filename = "C:\\Users\\320065411\\eclipse-workspace\\MyTraining\\src\\com\\philips\\casestudy\\chatbot\\Inputvalues.txt";
+ 			String filename1 = System.getProperty("user.dir");
+			//System.out.println(filename1);
+ 			filename1=filename1 + "\\Inputvalues.txt";
+			FileReader fr=new FileReader(filename1);
 			int i;   
 	         try {
 				while((i=fr.read())!=-1)    
