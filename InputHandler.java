@@ -12,6 +12,7 @@ public class InputHandler {
 	public static String provide() {
 		if(InputHandler.order<inputList.size())
 			{String result=InputHandler.inputList.get(InputHandler.order).substring(0,InputHandler.inputList.get(InputHandler.order).length()-1);
+			//String result=InputHandler.inputList.get(InputHandler.order);
 			InputHandler.order++;
 			return result;
 			}
