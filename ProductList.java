@@ -1,4 +1,4 @@
-
+//package com.philips.casestudy.chatbot;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -6,10 +6,7 @@ import java.io.IOException;
 
 import org.json.simple.JSONObject;
 
-
-
-@SuppressWarnings({"unused","unchecked"})
-
+@SuppressWarnings("unchecked")
 public class ProductList {
  public static JSONObject[] PMSList = new JSONObject[11] ;
 
@@ -19,12 +16,9 @@ public class ProductList {
  			String str0 = System.getProperty("user.dir");
  			str0=str0 + "\\Productdetails.txt";
  			
-
- 			//String str1 = "C:\\Users\\320065416\\eclipse-workspace\\Mytraining\\src\\com\\philips\\casestudy\\chat\\ProductDetails.txt";
+ 			//String str1 = "C:\\Users\\320065411\\eclipse-workspace\\MyTraining\\src\\com\\philips\\casestudy\\chatbot\\ProductDetails.txt";
  		
 			FileReader fr=new FileReader(str0);
-
-
 			int i;    
 	         String wholeText="";
 	         try {
