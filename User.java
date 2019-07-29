@@ -47,7 +47,7 @@ public class User {
 				this.nofbeds=Integer.parseInt(beds);
 			}
 			else
-				{Logger.Log("Please enter an integer for 'No.of Beds'");}
+				{Logger.Log("You entered something that doesn't look like a number , enter once again..");}
 		}
 		this.acuity=User.decideAcuity(this.Address,this.nofbeds);
 }
@@ -65,7 +65,7 @@ public class User {
 			r1=Query.sortByCombination(r1);
 			if(r1.size()==0)
 						return;
-			Logger.Log("\nwe have "+ r1.size() +" product/s with these specs..");
+			Logger.Log("\nWe have "+ r1.size() +" product/s with these specs..");
 			r1=Query.sortByScreenType(r1);
 			if(r1.size()==0)
 					return;
@@ -77,11 +77,13 @@ public class User {
 			this.suggestion=Query.sortByScreenSize(r1);
 			}
 		Logger.Log("\nDo you need central patient monitoring station? \n\t1.YES \t2.NO\n");
-		 //System.out.println("\nDo you need central patient monitoring station \n\t1.yes \n\t2.No");
-		 int cpms15=ConsoleScanner.TakeInteger();
+		
+		 int cpms=ConsoleScanner.TakeInteger();
 		 //int cpms15=Integer.parseInt(InputHandler.provide());
-		 this.centralPMS=Integer.toString(cpms15);
+		 this.centralPMS=Integer.toString(cpms);
 	}
+	
+	
 	public void suggest() {
 		if(this.suggestion.size()==1) {
 			Logger.Log("\nThe product you can buy is " + this.suggestion.get(0).get("model").toString().toUpperCase());
@@ -89,31 +91,28 @@ public class User {
 		}
 		else {if(this.acuity=="high")
 					{Logger.Log("\nThe intelliVue base model suitable for you are ..");
-					for(int i=0;i<this.suggestion.size();i++) {
-			  			Logger.Log(this.suggestion.get(i).get("model").toString().toUpperCase());
-			  	}
 					}
 			  else
 				  	{Logger.Log("\nThe products you can go for are\n ");
-				  	for(int i=0;i<this.suggestion.size();i++) {
-				  			Logger.Log(this.suggestion.get(i).get("model").toString().toUpperCase());
 				  	}
-				  	
-				  	}
+		for(int i=0;i<this.suggestion.size();i++) {
+  			Logger.Log(this.suggestion.get(i).get("model").toString().toUpperCase());
+  	}
 			 }
-		Logger.Log("\n\tYou can find this product and order from our website ");
+		Logger.Log("\nYou can find this product and order from our website ");
 		}
+	
 	
 
 	public void conclude() {
 		 if(this.acuity=="high")
 				{System.out.println("\nEnter custom specifications");         
-				String spec15=ConsoleScanner.TakeString();
+				String spec=ConsoleScanner.TakeString();
 				//String spec15=InputHandler.provide();
-				this.additionalParams=spec15;
+				this.additionalParams=spec;
 				Logger.Log("\nOur Nearest Dealer Saleel will contact you for the more information");
 				}
-		 Logger.Log("Hope you have got what you were asking..");
+		 Logger.Log("\nHope you have got what you were asking..");
 		}
 	
 }

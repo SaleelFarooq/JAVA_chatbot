@@ -27,17 +27,16 @@ public class ProductList {
 				e.printStackTrace();
 			}
 	         String[] rows = wholeText.split("\n");
-	         String[] ArrayOfKeys = rows[0].split(" ");
+	         String[] arrayOfKeys = rows[0].split(" ");
 	         for(int m=1;m<rows.length;m++) {
 	         String[] values = rows[m].split(" ");
-	         JSONObject pms034= new JSONObject();
-	         for(int j=0;j<ArrayOfKeys.length;j++) {
-	        	 if(j==ArrayOfKeys.length-1)
-	        	 		{pms034.put(ArrayOfKeys[j].substring(0,ArrayOfKeys[j].length()-1),values[j].substring(0,values[j].length()-1));}
-	        	 pms034.put(ArrayOfKeys[j],values[j]);
+	         JSONObject pms= new JSONObject();
+	         for(int j=0;j<arrayOfKeys.length;j++) {
+	        	 if(j==arrayOfKeys.length-1)
+	        	 		{pms.put(arrayOfKeys[j].substring(0,arrayOfKeys[j].length()-1),values[j].substring(0,values[j].length()-1));}
+	        	 pms.put(arrayOfKeys[j],values[j]);
 	         }
-	         pms034.remove("12lead_ecg\r");
-	         PMSList.add(pms034);
+	         PMSList.add(pms);
 	         }
 	         try {
 				fr.close();
