@@ -85,7 +85,7 @@ public class User {
 	public void suggest() {
 		if(this.suggestion.size()==1) {
 			Logger.Log("\nThe product you can buy is " + this.suggestion.get(0).get("model").toString().toUpperCase());
-			
+			Logger.Log("\n\tYou can find this product and order from our website ");
 		}
 		else {if(this.acuity=="high")
 					{Logger.Log("\nThe intelliVue base model suitable for you are ..");
@@ -98,10 +98,10 @@ public class User {
 				  	for(int i=0;i<this.suggestion.size();i++) {
 				  			Logger.Log(this.suggestion.get(i).get("model").toString().toUpperCase());
 				  	}
-				  	
+				  	Logger.Log("\n\tYou can find this product and order from our website ");
 				  	}
 			 }
-		Logger.Log("\n\tYou can find this product and order from our website ");
+		
 		}
 	
 
