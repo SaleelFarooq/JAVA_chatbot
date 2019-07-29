@@ -55,7 +55,11 @@ public class Query {
 	
 	public static List<JSONObject> sortByCombination(List<JSONObject> list1) {
 		Logger.Log("Select the set of additional parameters recquired\n\t 1. Philips spO2\n\t 2. Philips spO2 , Cardiac output");
+<<<<<<< HEAD
 		Logger.Log("\t 3. Masimo rainbow , Philips SpO2\n\t 4. Philips spO2 , Cardiac output , Masimo rainbow");
+=======
+		Logger.Log("\n\t 3. Masimo rainbow , Philips SpO2\n\t 4. Philips spO2 , Cardiac output , Masimo rainbow");
+>>>>>>> 3d7da40a9e4ac241a4237597ea091d5b1d128227
 		int parameterCombination=0;
 		try {parameterCombination=ConsoleScanner.TakeInteger();
 		if(parameterCombination<1 || parameterCombination>4)
